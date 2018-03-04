@@ -26,7 +26,16 @@
                 "title": "Stop Realtime Sync",
                 "category": "Realtime Sync"
             },
-
+            {
+                "command": "extension.addFileToRS",
+                "title": "Add File to Remote Sync",
+                "category": "Realtime Sync"
+            },
+            {
+                "command": "extension.remFileFromRS",
+                "title": "Remove File from Remote Sync",
+                "category": "Realtime Sync"
+            },
             {
                 "command": "extension.joinRSServer",
                 "title": "Join Realtime Sync",
@@ -51,5 +60,8 @@
         "vscode": "^1.1.6",
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "uuid": "^3.2.1"
     }
 }
