@@ -1,0 +1,55 @@
+{
+    "name": "realtime-sync",
+    "displayName": "Realtime Sync",
+    "description": "Sync file edits between multiple people in realtime",
+    "version": "0.0.1",
+    "publisher": "Otter-Co",
+    "engines": {
+        "vscode": "^1.20.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.startRSServer"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.startRSServer",
+                "title": "Start Realtime Sync",
+                "category": "Realtime Sync"
+            },
+            {
+                "command": "extension.stopRSServer",
+                "title": "Stop Realtime Sync",
+                "category": "Realtime Sync"
+            },
+
+            {
+                "command": "extension.joinRSServer",
+                "title": "Join Realtime Sync",
+                "category": "Realtime Sync"
+            },
+            {
+                "command": "extension.leaveRSServer",
+                "title": "Start Realtime Sync",
+                "category": "Realtime Sync"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
