@@ -7,6 +7,7 @@ import
     RSUserID,
     RSUserServer,
     RSMessages_S,
+    RSMessages_C,
     RSServerMessageType,
     RSClientMessageType,
 } from '../lib';
@@ -68,6 +69,16 @@ export class RSServer
 
     private handleNewUser ( soc: net.Socket ) 
     {
-        soc.once( 'connect', () => { } )
+        let newUser = new RSUserServer( soc );
+
+        newUser.on( 'join-request', ( mess: RSMessages_C.Base ) =>
+        {
+            newUser.on( 'leave-report', () => { } );
+            newUser.on( 'add-file-request', () => { } );
+            newUser.on( 'rem-file-request', () => { } );
+            newUser.on( 'update-file-request', () => { } );
+        } );
     }
+
+    private 
 }

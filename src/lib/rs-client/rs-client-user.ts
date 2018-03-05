@@ -7,6 +7,7 @@ import
     RSClientMessageType,
     RSServerMessageType,
     RSUserID,
+    SafeJSON,
 } from '../lib';
 
 export class RSUserClient extends RSUserBase
@@ -26,6 +27,20 @@ export class RSUserClient extends RSUserBase
             this.socket.connect( port, host, () =>
             {
                 this.socket.removeListener( 'error', errFunc );
+
+                this.socket.on( 'error', () => { } );
+                this.socket.on( 'connect', () => { } );
+                this.socket.on( 'close', () => { } );
+                this.socket.on( 'end', () => { } );
+                this.socket.on( 'data', ( data ) =>
+                {
+                    let datStr = data.toString( 'utf-8' );
+                    let datO = SafeJSON.parse<RSMessages_S.Base>( datStr, null );
+                    if ( datO === null ) { return; } // @TODO - Add Logging
+
+                    this.handleMessage( datO );
+                } );
+
                 return res( this );
             } );
         } );
