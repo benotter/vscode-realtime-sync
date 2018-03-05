@@ -11,41 +11,72 @@
         "Other"
     ],
     "activationEvents": [
+        "onCommand:extension.startUpRS",
         "onCommand:extension.startRSServer",
-        "onCommand:extension.joinRSServer"
+        "onCommand:extension.stopRSServer",
+        "onCommand:extension.addFileToRS",
+        "onCommand:extension.remFileFromRS",
+        "onCommand:extension.joinRSServer",
+        "onCommand:extension.leaveRSServer"
     ],
     "main": "./out/extension",
     "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Realtime Sync Configuration",
+            "properties": {
+                "realtime_sync.userName": {
+                    "type": "string",
+                    "default": false,
+                    "description": "Username to use by default"
+                },
+                "realtime_sync.serverPort": {
+                    "type": "integer",
+                    "default": 8117,
+                    "description": "Port to host server on"
+                },
+                "realtime_sync.clientPort": {
+                    "type": "integer",
+                    "default": 8117,
+                    "description": "Port to connect to with client"
+                }
+            }
+        },
         "commands": [
             {
-                "command": "extension.startRSServer",
-                "title": "Start Realtime Sync",
-                "category": "Realtime Sync"
+                "category": "Realtime Sync",
+                "title": "Start Up Realtime Sync",
+                "command": "extension.startUpRS"
             },
             {
-                "command": "extension.stopRSServer",
-                "title": "Stop Realtime Sync",
-                "category": "Realtime Sync"
+                "category": "Realtime Sync",
+                "title": "Start Realtime Sync Server",
+                "command": "extension.startRSServer"
             },
             {
-                "command": "extension.addFileToRS",
-                "title": "Add File to Remote Sync",
-                "category": "Realtime Sync"
+                "category": "Realtime Sync",
+                "title": "Stop Realtime Sync Server",
+                "command": "extension.stopRSServer"
             },
             {
-                "command": "extension.remFileFromRS",
-                "title": "Remove File from Remote Sync",
-                "category": "Realtime Sync"
+                "category": "Realtime Sync",
+                "title": "Add File to Remote Sync Server",
+                "command": "extension.addFileToRS"
             },
             {
-                "command": "extension.joinRSServer",
-                "title": "Join Realtime Sync",
-                "category": "Realtime Sync"
+                "category": "Realtime Sync",
+                "title": "Remove File from Remote Sync Server",
+                "command": "extension.remFileFromRS"
             },
             {
-                "command": "extension.leaveRSServer",
-                "title": "Start Realtime Sync",
-                "category": "Realtime Sync"
+                "category": "Realtime Sync",
+                "title": "Join Realtime Sync Server",
+                "command": "extension.joinRSServer"
+            },
+            {
+                "category": "Realtime Sync",
+                "title": "Leave Realtime Sync Server",
+                "command": "extension.leaveRSServer"
             }
         ]
     },

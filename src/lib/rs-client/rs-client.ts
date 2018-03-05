@@ -23,7 +23,10 @@ export class RSClient
     {
         this.socket.on( 'error', () => { } );
 
-        this.socket.on( 'connect', () => { } );
+        this.socket.on( 'connect', () =>
+        {
+            this.sendJoinMessage();
+        } );
 
         this.socket.on( 'timeout', () => { } );
         this.socket.on( 'close', () => { } );
@@ -51,19 +54,23 @@ export class RSClient
 
     public join ( host: string, port: number )
     {
-        this.socket.connect( port, host );
-
+        return new Promise( ( res, rej ) =>
+        {
+            this.socket.connect( port, host, ()=>{
+                res();
+            });
+        } )
     }
     public leave () 
     {
-        this.socket.end();
+        this.sendLeaveMessage();
     }
 
     private sendJoinMessage ()
     {
         this.send(
             getBaseClientMess<RSClientMessages.IRSJoinMessage>(
-                ERSClientMessageType.JoinMessage,
+                ERSClientMessageType.Join,
                 {
                     userName: "",
                     uuid: ""
@@ -76,7 +83,7 @@ export class RSClient
     {
         this.send(
             getBaseClientMess<RSClientMessages.IRSLeaveMessage>(
-                ERSClientMessageType.LeaveMessage,
+                ERSClientMessageType.Leave,
                 {
                     uuid: "",
                 }
@@ -88,19 +95,19 @@ export class RSClient
     {
         switch ( mess.type )
         {
-            case ERSServerMessageType.UserJoinedMessage:
+            case ERSServerMessageType.UserJoined:
                 break;
 
-            case ERSServerMessageType.UserLeftMessage:
+            case ERSServerMessageType.UserLeft:
                 break;
 
-            case ERSServerMessageType.AddFileMessage:
+            case ERSServerMessageType.UserAddFile:
                 break;
 
-            case ERSServerMessageType.RemFileMessage:
+            case ERSServerMessageType.UserRemFile:
                 break;
 
-            case ERSServerMessageType.EditFileMessage:
+            case ERSServerMessageType.UserEditFile:
                 break;
 
             default:

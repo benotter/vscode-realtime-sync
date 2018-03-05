@@ -1,20 +1,84 @@
-import * as vscode from 'vscode';
+import * as code from 'vscode';
 
-export function activate ( context: vscode.ExtensionContext )
+import { RSServer } from './lib/rs-server/rs-server';
+import { RSClient } from './lib/rs-client/rs-client';
+import { RSStatusBar } from './lib/ui/rs-status-bar';
+
+let server: RSServer;
+let client: RSClient;
+let statusBar: RSStatusBar;
+
+export function activate ( context: code.ExtensionContext )
 {
-    console.log( 'Congratulations, your extension "realtime-sync" is now active!' );
+    let {
+        realtime_sync: {
+            serverPort = 8117,
+            clientPort = 8117,
+            // userName = null,
+        } = {}
+    } = code.workspace.getConfiguration( 'realtime-sync' );
 
-    let disposable = vscode.commands.registerCommand( 'extension.startRSServer', () =>
+    statusBar = new RSStatusBar( code.window.createStatusBarItem( code.StatusBarAlignment.Right ) );
+
+    let startUpDisp = code.commands.registerCommand( 'extension.startUpRS', () =>
     {
-        vscode.window.showInformationMessage( 'Hello World!' );
+        server = new RSServer();
+        client = new RSClient();
     } );
 
-    context.subscriptions.push( disposable );
+    let startServerDisp = code.commands.registerCommand( 'extension.startRSServer', () => 
+    {
+        server.start( serverPort );
+        statusBar.setServer();
+    } );
+
+    let stopServerDisp = code.commands.registerCommand( 'extension.stopRSServer', () => 
+    {
+        server.stop();
+        statusBar.setIdle();
+    } );
+
+    let joinServerDisp = code.commands.registerCommand( 'extension.joinRSServer', () =>
+    {
+        code.window.showInputBox( { placeHolder: "localhost" } )
+            .then( addr =>
+            {
+                if ( !addr )
+                    return;
+
+                client.join( addr, clientPort );
+                statusBar.setClient();
+            } );
+    } );
+
+    let leaveServerDisp = code.commands.registerCommand( 'extension.leaveRSServer', () =>
+    {
+        client.leave();
+        statusBar.setIdle();
+    } );
+
+    let addFileDisp = code.commands.registerCommand( 'extension.addFileToRS', () => { } );
+    let remFileDisp = code.commands.registerCommand( 'extension.remFileFromRS', () => { } );
+
+    context.subscriptions.push(
+        startUpDisp,
+        startServerDisp,
+        stopServerDisp,
+        addFileDisp,
+        remFileDisp,
+        joinServerDisp,
+        leaveServerDisp,
+    );
 }
 
 export function deactivate ()
 {
-
-    vscode.window.showInformationMessage( "Extension Done!" );
+    code.window.showInformationMessage( "Extension Done!" );
     console.log( "Extension Deactived!" );
 }
+
+const notify = {
+    info: ( note: string ) => code.window.showInformationMessage( note ),
+    warn: ( note: string ) => code.window.showWarningMessage( note ),
+    error: ( note: string ) => code.window.showErrorMessage( note ),
+};
