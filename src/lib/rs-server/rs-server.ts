@@ -15,7 +15,7 @@ export class RSServer
 {
     public server: net.Server = net.createServer();
 
-    public get serverStarted() { return this.server.listening; }
+    public get serverStarted () { return this.server.listening; }
 
     public userList: RSUserServer[] = [];
     public fileList: RSFile[] = [];
@@ -51,7 +51,7 @@ export class RSServer
 
     public stop ( cb: () => void = () => { } )
     {
-        if(this.serverStarted)
+        if ( this.serverStarted )
             this.server.close();
     }
 
@@ -68,6 +68,6 @@ export class RSServer
 
     private handleNewUser ( soc: net.Socket ) 
     {
-        
+        soc.once( 'connect', () => { } )
     }
 }

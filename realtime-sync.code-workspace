@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../GitHub/realtime-sync"
+		},
+		{
+			"path": "src"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "realtime-sync/node_modules/typescript/lib"
+	}
+}

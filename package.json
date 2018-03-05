@@ -10,9 +10,7 @@
     "categories": [
         "Other"
     ],
-    "activationEvents": [
-  
-    ],
+    "activationEvents": [],
     "main": "./out/extension",
     "contributes": {
         "configuration": {
@@ -36,9 +34,7 @@
                 }
             }
         },
-        "commands": [
-            
-        ]
+        "commands": []
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
