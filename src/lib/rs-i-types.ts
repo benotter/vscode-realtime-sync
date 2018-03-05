@@ -6,7 +6,7 @@ export enum ERSClientMessageType
     JoinMessage,
     LeaveMessage,
 }
-export namespace RSClieantMessages
+export namespace RSClientMessages
 {
     export interface IRSClientMessage 
     {
@@ -29,6 +29,8 @@ export namespace RSClieantMessages
 // >>> Server Messages <<< \\
 export enum ERSServerMessageType 
 {
+    BaseMessage,
+
     UserJoinedMessage,
     UserLeftMessage,
 

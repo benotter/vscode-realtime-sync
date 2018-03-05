@@ -11,7 +11,8 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.startRSServer"
+        "onCommand:extension.startRSServer",
+        "onCommand:extension.joinRSServer"
     ],
     "main": "./out/extension",
     "contributes": {

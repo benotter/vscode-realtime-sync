@@ -1,8 +1,12 @@
-import { ERSClientMessageType, RSClieantMessages } from './rs-i-types';
+import
+{
+    ERSServerMessageType, RSServerMessages,
+    ERSClientMessageType, RSClientMessages,
+} from './rs-i-types';
 
 export namespace SafeJSON 
 {
-    export function parse<T = any>( str: string, def = null ): T | null
+    export function parse<T = any>( str: string, def: T ): T
     {
         try { return JSON.parse( str ) as T; }
         catch ( e ) { return def; }
@@ -16,16 +20,26 @@ export namespace SafeJSON
 
 export namespace RSMessageUtils 
 {
-    export function getBaseMess<T = RSClieantMessages.IRSClientMessage>(
-        messType: ERSClientMessageType,
-        data: T
-    ): T
-    {
-        return Object.assign( { type: messType, }, data as T) as T;
-    }
-
-    export function formatMess ( mess: RSClieantMessages.IRSClientMessage ): string 
+    export function formatMess (
+        mess: RSClientMessages.IRSClientMessage | RSServerMessages.IRSServerMessage
+    ): string 
     {
         return SafeJSON.stringify( mess );
+    }
+
+    export function getBaseClientMess<T = RSClientMessages.IRSClientMessage>(
+        type: ERSClientMessageType,
+        data: T,
+    ): T
+    {
+        return Object.assign( { type, }, data );
+    }
+
+    export function getBaseServerMess<T = RSServerMessages.IRSServerMessage>(
+        type: ERSServerMessageType,
+        data: T,
+    ): T
+    {
+        return Object.assign( { type, }, data );
     }
 }
