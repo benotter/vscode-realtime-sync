@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { RSUserID } from './rs-user-base';
+import { RSUserID } from './lib';
 
 export type RSFileID = string;
 
