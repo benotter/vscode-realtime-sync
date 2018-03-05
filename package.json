@@ -11,13 +11,7 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.startUpRS",
-        "onCommand:extension.startRSServer",
-        "onCommand:extension.stopRSServer",
-        "onCommand:extension.addFileToRS",
-        "onCommand:extension.remFileFromRS",
-        "onCommand:extension.joinRSServer",
-        "onCommand:extension.leaveRSServer"
+  
     ],
     "main": "./out/extension",
     "contributes": {
@@ -43,41 +37,7 @@
             }
         },
         "commands": [
-            {
-                "category": "Realtime Sync",
-                "title": "Start Up Realtime Sync",
-                "command": "extension.startUpRS"
-            },
-            {
-                "category": "Realtime Sync",
-                "title": "Start Realtime Sync Server",
-                "command": "extension.startRSServer"
-            },
-            {
-                "category": "Realtime Sync",
-                "title": "Stop Realtime Sync Server",
-                "command": "extension.stopRSServer"
-            },
-            {
-                "category": "Realtime Sync",
-                "title": "Add File to Remote Sync Server",
-                "command": "extension.addFileToRS"
-            },
-            {
-                "category": "Realtime Sync",
-                "title": "Remove File from Remote Sync Server",
-                "command": "extension.remFileFromRS"
-            },
-            {
-                "category": "Realtime Sync",
-                "title": "Join Realtime Sync Server",
-                "command": "extension.joinRSServer"
-            },
-            {
-                "category": "Realtime Sync",
-                "title": "Leave Realtime Sync Server",
-                "command": "extension.leaveRSServer"
-            }
+            
         ]
     },
     "scripts": {
@@ -94,6 +54,7 @@
         "@types/mocha": "^2.2.42"
     },
     "dependencies": {
+        "@types/uuid": "^3.4.3",
         "uuid": "^3.2.1"
     }
 }
