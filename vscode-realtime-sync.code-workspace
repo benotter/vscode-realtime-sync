@@ -4,10 +4,15 @@
             "path": "."
         },
         {
-            "path": "C:\\Users\\benot\\Documents\\Code\\realtime_sync\\realtime-sync"
+            "path": "src",
+            "name": "src"
+        },
+        {
+            "path": "C:\\Users\\benot\\Documents\\Code\\realtime_sync\\realtime-sync",
+            "name": "realtime-sync"
         }
     ],
-	"settings": {
+    "settings": {
         "typescript.tsdk": "vscode-realtime-sync\\node_modules\\typescript\\lib"
     }
 }

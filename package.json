@@ -10,31 +10,69 @@
     "categories": [
         "Other"
     ],
-    "activationEvents": [],
+    "activationEvents": [
+        "*",
+        "onCommand:rs.startServer",
+        "onCommand:rs.joinServer",
+        "onCommand:rs.setDefaultUserName"
+    ],
     "main": "./out/extension",
     "contributes": {
         "configuration": {
             "type": "object",
             "title": "Realtime Sync Configuration",
             "properties": {
-                "realtime_sync.userName": {
+                "realtime-sync.server.port": {
+                    "type": "integer",
+                    "default": 8117,
+                    "description": "Default port for server to use"
+                },
+                "realtime-sync.server.host": {
                     "type": "string",
-                    "default": false,
-                    "description": "Username to use by default"
+                    "description": "Default hostname for server to use"
                 },
-                "realtime_sync.serverPort": {
+                "realtime-sync.client.port": {
                     "type": "integer",
                     "default": 8117,
-                    "description": "Port to host server on"
+                    "description": "Default port for client to use"
                 },
-                "realtime_sync.clientPort": {
-                    "type": "integer",
-                    "default": 8117,
-                    "description": "Port to connect to with client"
+                "realtime-sync.client.defaultUsername": {
+                    "type": "string",
+                    "description": "Default username for client to use"
+                },
+                "realtime-sync.client.defaultID": {
+                    "type": "string",
+                    "description": "Override default random UUID"
                 }
             }
         },
-        "commands": []
+        "commands": [
+            {
+                "title": "Start realtime-sync Server",
+                "category": "realtime-sync",
+                "command": "rs.startServer"
+            },
+            {
+                "title": "Stop realtime-sync Server",
+                "category": "realtime-sync",
+                "command": "rs.stopServer"
+            },
+            {
+                "title": "Join realtime-sync Server",
+                "category": "realtime-sync",
+                "command": "rs.joinServer"
+            },
+            {
+                "title": "Leave realtime-sync Server",
+                "category": "realtime-sync",
+                "command": "rs.leaveServer"
+            },
+            {
+                "title": "Set Default Username",
+                "category": "realtime-sync",
+                "command": "rs.setDefaultUsername"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
