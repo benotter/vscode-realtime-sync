@@ -1,7 +1,5 @@
 import * as code from 'vscode';
 
-
-
 export function activate ( context: code.ExtensionContext )
 {
     

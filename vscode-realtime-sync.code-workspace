@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "C:\\Users\\benot\\Documents\\Code\\realtime_sync\\realtime-sync"
+        }
+    ],
+	"settings": {
+		"typescript.tsdk": "realtime-sync/node_modules/typescript/lib"
+	}
+}
