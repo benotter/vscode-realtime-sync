@@ -1,4 +1,5 @@
 import * as code from 'vscode';
+import * as rs from '@otter-co/realtime-sync';
 
 export function activate ( context: code.ExtensionContext )
 {
