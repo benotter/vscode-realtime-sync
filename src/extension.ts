@@ -1,80 +1,62 @@
 import * as code from 'vscode';
 import * as rs from '@otter-co/realtime-sync';
 import * as CONST from './const';
+
+import SetDefUserN from './commands/rs.set_default_username';
+
+export type ExtMemory = {
+    client: rs.RS_C_Client | null;
+    server: rs.RS_C_Server | null;
+
+    userName: string | null;
+    userID: string | null;
+
+    config: code.WorkspaceConfiguration;
+    cfg: VSCodeRSConfig;
+    notify: {
+        info: ( note: string ) => Thenable<string | void>;
+        warn: ( note: string ) => Thenable<string | void>;
+        error: ( note: string ) => Thenable<string | void>;
+    }
+};
+
 export function activate ( context: code.ExtensionContext )
 {
-    const config = code.workspace.getConfiguration(),
-        cfg = config.get<VSCodeRSConfig>( 'realtime-sync' ) as VSCodeRSConfig;
+    const config = code.workspace.getConfiguration();
+    const cfg = config.get<VSCodeRSConfig>( 'realtime-sync' ) as VSCodeRSConfig;
 
-    console.log( cfg );
+    const notify = {
+        info: ( note: string ) => code.window.showInformationMessage( note ),
+        warn: ( note: string ) => code.window.showWarningMessage( note ),
+        error: ( note: string ) => code.window.showErrorMessage( note ),
+    };
 
-    const mem: {
-        client: rs.RS_C_Client | null,
-        server: rs.RS_C_Server | null
-    } = {
-            client: null,
-            server: null,
-        };
+    const mem: ExtMemory = {
+        client: null,
+        server: null,
+        userName: null,
+        userID: null,
+        config,
+        cfg,
+        notify
+    };
 
     context.subscriptions.push(
-        code.commands.registerCommand( 'rs.startServer', ( ...args ) =>
-        {
-            if ( !mem.server )
-            {
-                mem.server = new rs.RS_C_Server( cfg.server.port, cfg.server.host || void 0 );
-                mem.server
-                    .on( 'user-join', ( d ) => { } )
-                    .on( 'user-leave', ( d ) => { } )
-                    .on( 'file-added', ( d ) => { } )
-                    .on( 'file-removed', ( d ) => { } )
-                    .on( 'file-updated', ( d ) => { } );
-            }
-
-            mem.server.start()
-                .then( () =>
-                    notify.info( CONST.LOG.INFO_SERVER_STARTED( cfg.server.port, cfg.server.host ) )
-                )
-                .catch( ( err ) => notify.error( err ) );
-        } ),
-
-        code.commands.registerCommand( 'rs.stopServer', ( ...args ) =>
-        {
-            if ( mem.server )
-                mem.server.stop()
-                    .then( () => notify.info( CONST.LOG.INFO_SERVER_STOPPED ) )
-                    .catch( () => notify.warn( CONST.LOG.WARN_SERVER_NOT_STARTED ) );
-        } ),
-        code.commands.registerCommand( 'rs.joinServer', ( ...args ) =>
-        {
-
-            if ( !mem.client )
-                mem.client = new rs.RS_C_Client();
-        } ),
-        code.commands.registerCommand( 'rs.leaveServer', ( ...args ) =>
-        {
-
-        } ),
-        code.commands.registerCommand( 'rs.setDefaultUsername', ( ...args ) =>
-        {
-            code.window.showInputBox( {
-                placeHolder: "realtime-sync username",
-            } ).then( ( userN ) =>
-            {
-
-                if ( userN = ' ' )
-                {
-                    config.update( CONST.SETTINGS.CLIENT_DEF_USERNAME, void 0 );
-                    notify.info( `Clearing Default Username!` );
-                }
-                else if ( userN )
-                {
-                    config.update( CONST.SETTINGS.CLIENT_DEF_USERNAME, userN );
-                    notify.info( `Set Default Username to "${ userN }"!` );
-                }
-                else
-                    notify.info( 'Did not set Default Username!' );
-            } );
-        } ),
+        code.commands.registerCommand( 'rs.startServer',
+            ( ...args ) => { }
+        ),
+        code.commands.registerCommand( 'rs.stopServer',
+            ( ...args ) => { }
+        ),
+        code.commands.registerCommand( 'rs.joinServer',
+            ( ...args ) => { }
+        ),
+        code.commands.registerCommand( 'rs.leaveServer',
+            ( ...args ) => { }
+        ),
+        code.commands.registerCommand( 'rs.setDefaultUsername',
+            ( ...args ) => SetDefUserN( mem )
+        ),
     );
 }
 
@@ -84,8 +66,3 @@ export function deactivate ()
     console.log( "Extension Deactived!" );
 }
 
-const notify = {
-    info: ( note: string ) => code.window.showInformationMessage( note ),
-    warn: ( note: string ) => code.window.showWarningMessage( note ),
-    error: ( note: string ) => code.window.showErrorMessage( note ),
-};
