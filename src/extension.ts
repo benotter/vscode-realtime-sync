@@ -9,8 +9,8 @@ export function activate ( context: code.ExtensionContext )
     console.log( cfg );
 
     const mem: {
-        client: rs.RSClient | null,
-        server: rs.RSServer | null
+        client: rs.RS_C_Client | null,
+        server: rs.RS_C_Server | null
     } = {
             client: null,
             server: null,
@@ -20,7 +20,15 @@ export function activate ( context: code.ExtensionContext )
         code.commands.registerCommand( 'rs.startServer', ( ...args ) =>
         {
             if ( !mem.server )
-                mem.server = new rs.RSServer( notify, cfg.server.port, cfg.server.host || void 0 );
+            {
+                mem.server = new rs.RS_C_Server( notify, cfg.server.port, cfg.server.host || void 0 );
+                mem.server
+                    .on( 'user-join', ( d ) => { } )
+                    .on( 'user-leave', ( d ) => { } )
+                    .on( 'file-added', ( d ) => { } )
+                    .on( 'file-removed', ( d ) => { } )
+                    .on( 'file-updated', ( d ) => { } );
+            }
 
             mem.server.start()
                 .then( () =>
@@ -39,6 +47,8 @@ export function activate ( context: code.ExtensionContext )
         code.commands.registerCommand( 'rs.joinServer', ( ...args ) =>
         {
 
+            if ( !mem.client )
+                mem.client = new rs.RS_C_Client();
         } ),
         code.commands.registerCommand( 'rs.leaveServer', ( ...args ) =>
         {
