@@ -21,7 +21,7 @@ export function activate ( context: code.ExtensionContext )
         {
             if ( !mem.server )
             {
-                mem.server = new rs.RS_C_Server( notify, cfg.server.port, cfg.server.host || void 0 );
+                mem.server = new rs.RS_C_Server( cfg.server.port, cfg.server.host || void 0 );
                 mem.server
                     .on( 'user-join', ( d ) => { } )
                     .on( 'user-leave', ( d ) => { } )
